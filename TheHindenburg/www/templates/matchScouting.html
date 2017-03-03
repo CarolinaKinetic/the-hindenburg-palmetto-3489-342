@@ -9,7 +9,7 @@
             id="team" 
             ng-options="team.number + ' - ' + team.name for team in teams track by team.number"
             ng-model="team"
-            ng-change="selectTeamMatchScout()"></select>
+            ng-change="selectTeamMatchTabletScout()"></select>
         </label>
           
         <label class="item item-select" id="matchScouting-select18" name="MatchNum">
@@ -17,7 +17,23 @@
           <select ng-model="matchNum">
             <option 
               ng-repeat="i in numMatches track by $index"
-              ng-blur="selectTeamMatchScout()">{{$index+1}}</option>
+              ng-blur="selectTeamMatchTabletScout()">{{$index+1}}</option>
+          </select>
+        </label>
+        
+        <label class="item item-select">
+          <span class="input-label">This tablet watches</span>
+          <select 
+            ng-model="tabletWatchesWhat"
+            ng-change="selectTeamMatchTabletScout()">
+            <option value="1">Drive team on left, closest to stands</option>
+            <option value="2">Drive team on left, in middle</option>
+            <option value="3">Drive team on left, closest pit</option>
+            <option value="4">Drive team on right, closest to stands</option>
+            <option value="5">Drive team on right, in middle</option>
+            <option value="6">Drive team on right, closest pit</option>
+            <option value="7">Human player, Blue Alliance</option>
+            <option value="8">Human player, Red Alliance</option>
           </select>
         </label>
         
@@ -28,7 +44,7 @@
             id="scout" 
             ng-options="scout.name for scout in scouts track by scout.name"
             ng-model="scout"
-            ng-change="selectTeamMatchScout()"></select>
+            ng-change="selectTeamMatchTabletScout()"></select>
         </label>
       </form>
 
@@ -145,7 +161,7 @@
           <input 
             ng-model="AQ9" 
             id="AQ9" 
-            type="number" 
+            type="text" 
             placeholder=""
             ng-blur="updateField('AQ9')">
         </label>
@@ -160,7 +176,7 @@
           <input 
             ng-model="TQ1" 
             id="TQ1" 
-            type="number" 
+            type="text" 
             placeholder=""
             ng-blur="updateField('TQ1')">
         </label>
@@ -182,7 +198,7 @@
           <input 
             ng-model="TQ3" 
             id="TQ3" 
-            type="number" 
+            type="text" 
             placeholder=""
             ng-blur="updateField('TQ3')">
         </label>
@@ -204,7 +220,7 @@
           <input 
             ng-model="TQ5" 
             id="TQ5" 
-            type="number" 
+            type="text" 
             placeholder=""
             ng-blur="updateField('TQ5')">
         </label>
@@ -431,7 +447,7 @@
           <input 
             ng-model="EQ13" 
             id="EQ13" 
-            type="number" 
+            type="text" 
             placeholder=""
             ng-blur="updateField('EQ13')">
         </label>
@@ -441,7 +457,7 @@
           <input 
             ng-model="EQ14" 
             id="EQ14" 
-            type="number" 
+            type="text" 
             placeholder=""
             ng-blur="updateField('EQ14')">
         </label>
@@ -579,7 +595,7 @@
           </select>
         </label>
   
-        <label class="item item-select" id="HQ9" name="HQ9">
+        <label class="item item-select">
           <span class="input-label">How did the airship (2) human player do?</span>
           <select
             id="HQ9"
@@ -593,7 +609,7 @@
           </select>
         </label>
   
-        <label class="item item-select" id="HQ10" name="HQ10">
+        <label class="item item-select">
           <span class="input-label">How did the runner human player do?</span>
           <select
             id="HQ10"
@@ -618,12 +634,13 @@
             step="1"
             ng-blur="updateField('HQ11')">
         </ion-item>
-  
-        <button
-          class="button button-balanced button-block"
-          ng-click="submitMatch()">Submit</button>
-          
+        
       </form>
+  
+      <button
+        class="button button-balanced button-block"
+        ng-click="submitMatch()">Submit</button>
+          
     </div>
   </ion-content>
 </ion-view>

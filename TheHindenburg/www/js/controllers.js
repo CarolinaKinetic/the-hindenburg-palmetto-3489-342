@@ -255,17 +255,17 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject) {
   
   
   $scope.allIdFieldsSelected = function() {
-    return (($scope.teamSelected == true) && ($scope.scoutSelected == true) && ($scope.matchNumSelected == true));
+    return (($scope.teamSelected == true) && ($scope.scoutSelected == true) && ($scope.tabletWatchesWhatSelected == true) && ($scope.matchNumSelected == true));
   }
 
   
   
   
   $scope.updateField = function(fieldName) {
-    var refTeams = firebase.database().ref().child("Events/0/Matches/" + $scope.matchNum + "/Teams/");
+    var refTeams = firebase.database().ref().child("Events/0/Matches/" + $scope.matchNum + "/Teams/" + $scope.tabletWatchesWhat);
     var matches = $firebaseArray(refTeams);
     matches.$loaded().then(function() {
-      if ((matches.length < 1) && $scope.allIdFieldsSelected() ) {
+      if ((matches.length < 1) && $scope.allIdFieldsSelected()) {
         matches.$add({"Student" : $scope.scout.name, "Team Number" : $scope.team.number, "Match Number" : $scope.matchNum});
       }
       
@@ -328,7 +328,7 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject) {
     
   }
   
-  $scope.selectTeamMatchScout = function() {
+  $scope.selectTeamMatchTabletScout = function() {
     //Do something about a team/match#/scout having been selected
     if ($scope.team) {
       $scope.teamSelected = true;
@@ -341,6 +341,12 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject) {
       $scope.updateField('Scout');
     } else {
       $scope.scoutSelected = false;
+    }
+    
+    if ($scope.tabletWatchesWhat) {
+      $scope.tabletWatchesWhatSelected = true;
+    } else {
+      $scope.tabletWatchesWhatSelected = false;
     }
     
     if ($scope.matchNum) {
@@ -503,7 +509,7 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject) {
             if (interview.PQ25C) exportPitData += interview.PQ25C;
             exportPitData += "\t";
             if (interview.PQ25D) exportPitData += interview.PQ25D;
-            exportPitData += "\t";
+            //exportPitData += "\t";
             if (interview.PQ26) exportPitData += interview.PQ26;
             exportPitData += "\t";
             if (interview.PQ27A) exportPitData += interview.PQ27A;
@@ -534,105 +540,106 @@ function ($scope, $stateParams, $firebaseArray, $firebaseObject) {
       angular.forEach(matches, function(match) {
         var robotMatches = match["Teams"];
         angular.forEach(robotMatches, function(robotMatch) {
-          
-          if (robotMatch["Team Number"]) exportMatchData += robotMatch["Team Number"];
-          exportMatchData += "\t";
-          if (robotMatch["Match Number"]) exportMatchData += robotMatch["Match Number"];
-          exportMatchData += "\t";
-          if (robotMatch["Student"]) exportMatchData += robotMatch["Student"];
-          exportMatchData += "\t";
-          if (robotMatch["AQ1"]) exportMatchData += robotMatch["AQ1"];
-          exportMatchData += "\t";
-          if (robotMatch["AQ2"]) exportMatchData += robotMatch["AQ2"];
-          exportMatchData += "\t";
-          if (robotMatch["AQ3"]) exportMatchData += robotMatch["AQ3"];
-          exportMatchData += "\t";
-          if (robotMatch["AQ4"]) exportMatchData += robotMatch["AQ4"];
-          exportMatchData += "\t";
-          if (robotMatch["AQ5"]) exportMatchData += robotMatch["AQ5"];
-          exportMatchData += "\t";
-          if (robotMatch["AQ6"]) exportMatchData += robotMatch["AQ6"];
-          exportMatchData += "\t";
-          if (robotMatch["AQ7"]) exportMatchData += robotMatch["AQ7"];
-          exportMatchData += "\t";
-          if (robotMatch["AQ8"]) exportMatchData += robotMatch["AQ8"];
-          exportMatchData += "\t";
-          if (robotMatch["AQ9"]) exportMatchData += robotMatch["AQ9"];
-          exportMatchData += "\t";
-          if (robotMatch["TQ1"]) exportMatchData += robotMatch["TQ1"];
-          exportMatchData += "\t";
-          if (robotMatch["TQ2"]) exportMatchData += robotMatch["TQ2"];
-          exportMatchData += "\t";
-          if (robotMatch["TQ3"]) exportMatchData += robotMatch["TQ3"];
-          exportMatchData += "\t";
-          if (robotMatch["TQ4"]) exportMatchData += robotMatch["TQ4"];
-          exportMatchData += "\t";
-          if (robotMatch["TQ5"]) exportMatchData += robotMatch["TQ5"];
-          exportMatchData += "\t";
-          if (robotMatch["TQ6"]) exportMatchData += robotMatch["TQ6"];
-          exportMatchData += "\t";
-          if (robotMatch["TQ7"]) exportMatchData += robotMatch["TQ7"];
-          exportMatchData += "\t";
-          if (robotMatch["TQ8"]) exportMatchData += robotMatch["TQ8"];
-          exportMatchData += "\t";
-          if (robotMatch["TQ9"]) exportMatchData += robotMatch["TQ9"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ1"]) exportMatchData += robotMatch["EQ1"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ2"]) exportMatchData += robotMatch["EQ2"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ3"]) exportMatchData += robotMatch["EQ3"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ4"]) exportMatchData += robotMatch["EQ4"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ5"]) exportMatchData += robotMatch["EQ5"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ6"]) exportMatchData += robotMatch["EQ6"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ7"]) exportMatchData += robotMatch["EQ7"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ8"]) exportMatchData += robotMatch["EQ8"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ9"]) exportMatchData += robotMatch["EQ9"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ10"]) exportMatchData += robotMatch["EQ10"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ11"]) exportMatchData += robotMatch["EQ11"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ12"]) exportMatchData += robotMatch["EQ12"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ13"]) exportMatchData += robotMatch["EQ13"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ14"]) exportMatchData += robotMatch["EQ14"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ15"]) exportMatchData += robotMatch["EQ15"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ16"]) exportMatchData += robotMatch["EQ16"];
-          exportMatchData += "\t";
-          if (robotMatch["EQ17"]) exportMatchData += robotMatch["EQ17"];
-          exportMatchData += "\t";
-          if (robotMatch["HQ1"]) exportMatchData += robotMatch["HQ1"];
-          exportMatchData += "\t";
-          if (robotMatch["HQ2"]) exportMatchData += robotMatch["HQ2"];
-          exportMatchData += "\t";
-          if (robotMatch["HQ3"]) exportMatchData += robotMatch["HQ3"];
-          exportMatchData += "\t";
-          if (robotMatch["HQ4"]) exportMatchData += robotMatch["HQ4"];
-          exportMatchData += "\t";
-          if (robotMatch["HQ5"]) exportMatchData += robotMatch["HQ5"];
-          exportMatchData += "\t";
-          if (robotMatch["HQ6"]) exportMatchData += robotMatch["HQ6"];
-          exportMatchData += "\t";
-          if (robotMatch["HQ7"]) exportMatchData += robotMatch["HQ7"];
-          exportMatchData += "\t";
-          if (robotMatch["HQ8"]) exportMatchData += robotMatch["HQ8"];
-          exportMatchData += "\t";
-          if (robotMatch["HQ9"]) exportMatchData += robotMatch["HQ9"];
-          exportMatchData += "\t";
-          if (robotMatch["HQ10"]) exportMatchData += robotMatch["HQ10"];
-          exportMatchData += "\t";
-          if (robotMatch["HQ11"]) exportMatchData += robotMatch["HQ11"];
-          exportMatchData += "\r\n";
+          angular.forEach(robotMatch, function(attribute) {
+            if (attribute["Team Number"]) exportMatchData += robotMatch["Team Number"];
+            exportMatchData += "\t";
+            if (attribute["Match Number"]) exportMatchData += robotMatch["Match Number"];
+            exportMatchData += "\t";
+            if (attribute["Student"]) exportMatchData += robotMatch["Student"];
+            exportMatchData += "\t";
+            if (attribute["AQ1"]) exportMatchData += robotMatch["AQ1"];
+            exportMatchData += "\t";
+            if (attribute["AQ2"]) exportMatchData += robotMatch["AQ2"];
+            exportMatchData += "\t";
+            if (attribute["AQ3"]) exportMatchData += robotMatch["AQ3"];
+            exportMatchData += "\t";
+            if (attribute["AQ4"]) exportMatchData += robotMatch["AQ4"];
+            exportMatchData += "\t";
+            if (attribute["AQ5"]) exportMatchData += robotMatch["AQ5"];
+            exportMatchData += "\t";
+            if (attribute["AQ6"]) exportMatchData += robotMatch["AQ6"];
+            exportMatchData += "\t";
+            if (attribute["AQ7"]) exportMatchData += robotMatch["AQ7"];
+            exportMatchData += "\t";
+            if (attribute["AQ8"]) exportMatchData += robotMatch["AQ8"];
+            exportMatchData += "\t";
+            if (attribute["AQ9"]) exportMatchData += robotMatch["AQ9"];
+            exportMatchData += "\t";
+            if (attribute["TQ1"]) exportMatchData += robotMatch["TQ1"];
+            exportMatchData += "\t";
+            if (attribute["TQ2"]) exportMatchData += robotMatch["TQ2"];
+            exportMatchData += "\t";
+            if (attribute["TQ3"]) exportMatchData += robotMatch["TQ3"];
+            exportMatchData += "\t";
+            if (attribute["TQ4"]) exportMatchData += robotMatch["TQ4"];
+            exportMatchData += "\t";
+            if (attribute["TQ5"]) exportMatchData += robotMatch["TQ5"];
+            exportMatchData += "\t";
+            if (attribute["TQ6"]) exportMatchData += robotMatch["TQ6"];
+            exportMatchData += "\t";
+            if (attribute["TQ7"]) exportMatchData += robotMatch["TQ7"];
+            exportMatchData += "\t";
+            if (attribute["TQ8"]) exportMatchData += robotMatch["TQ8"];
+            exportMatchData += "\t";attribute
+            if (attribute["TQ9"]) exportMatchData += robotMatch["TQ9"];
+            exportMatchData += "\t";
+            if (attribute["EQ1"]) exportMatchData += robotMatch["EQ1"];
+            exportMatchData += "\t";
+            if (attribute["EQ2"]) exportMatchData += robotMatch["EQ2"];
+            exportMatchData += "\t";
+            if (attribute["EQ3"]) exportMatchData += robotMatch["EQ3"];
+            exportMatchData += "\t";
+            if (attribute["EQ4"]) exportMatchData += robotMatch["EQ4"];
+            exportMatchData += "\t";
+            if (attribute["EQ5"]) exportMatchData += robotMatch["EQ5"];
+            exportMatchData += "\t";
+            if (attribute["EQ6"]) exportMatchData += robotMatch["EQ6"];
+            exportMatchData += "\t";
+            if (attribute["EQ7"]) exportMatchData += robotMatch["EQ7"];
+            exportMaattributetchData += "\t";
+            if (attribute["EQ8"]) exportMatchData += robotMatch["EQ8"];
+            exportMatchData += "\t";
+            if (attribute["EQ9"]) exportMatchData += robotMatch["EQ9"];
+            exportMatchData += "\t";
+            if (attribute["EQ10"]) exportMatchData += robotMatch["EQ10"];
+            exportMatchData += "\t";
+            if (attribute["EQ11"]) exportMatchData += robotMatch["EQ11"];
+            exportMatchData += "\t";
+            if (attribute["EQ12"]) exportMatchData += robotMatch["EQ12"];
+            exportMatchData += "\t";
+            if (attribute["EQ13"]) exportMatchData += robotMatch["EQ13"];
+            exportMatchData += "\t";
+            if (attribute["EQ14"]) exportMatchData += robotMatch["EQ14"];
+            exportMatchData += "\t";
+            if (attribute["EQ15"]) exportMatchData += robotMatch["EQ15"];
+            exportMatchData += "\t";
+            if (attribute["EQ16"]) exportMatchData += robotMatch["EQ16"];
+            exportMatchData += "\t";
+            if (attribute["EQ17"]) exportMatchData += robotMatch["EQ17"];
+            exportMatchData += "\t";
+            if (attribute["HQ1"]) exportMatchData += robotMatch["HQ1"];
+            exportMatchData += "\t";
+            if (attribute["HQ2"]) exportMatchData += robotMatch["HQ2"];
+            exportMatchData += "\t";
+            if (attribute["HQ3"]) exportMatchData += robotMatch["HQ3"];
+            exportMatchData += "\t";
+            if (attribute["HQ4"]) exportMatchData += robotMatch["HQ4"];
+            exportMatchData += "\t";
+            if (attribute["HQ5"]) exportMatchData += robotMatch["HQ5"];
+            exportMatchData += "\t";
+            if (attribute["HQ6"]) exportMatchData += robotMatch["HQ6"];
+            exportMatchData += "\t";
+            if (attribute["HQ7"]) exportMatchData += robotMatch["HQ7"];
+            exportMatchData += "\t";
+            if (attribute["HQ8"]) exportMatchData += robotMatch["HQ8"];
+            exportMatchData += "\t";
+            if (attribute["HQ9"]) exportMatchData += robotMatch["HQ9"];
+            exportMatchData += "\t";
+            if (attribute["HQ10"]) exportMatchData += robotMatch["HQ10"];
+            exportMatchData += "\t";
+            if (attribute["HQ11"]) exportMatchData += robotMatch["HQ11"];
+            exportMatchData += "\r\n";
+          })
         })
       })
     })
